@@ -1,0 +1,1675 @@
+
+#include <Wire.h>//This library allows you to communicate with I2C.
+#include<LiquidCrystal_I2C.h> // Library for LCD displays 
+#include <Adafruit_NeoPixel.h> // library for Neopixels
+
+
+// Defining Buzzer Tones
+#define NOTE_B0  31
+#define NOTE_C1  33
+#define NOTE_CS1 35
+#define NOTE_D1  37
+#define NOTE_DS1 39
+#define NOTE_E1  41
+#define NOTE_F1  44
+#define NOTE_FS1 46
+#define NOTE_G1  49
+#define NOTE_GS1 52
+#define NOTE_A1  55
+#define NOTE_AS1 58
+#define NOTE_B1  62
+#define NOTE_C2  65
+#define NOTE_CS2 69
+#define NOTE_D2  73
+#define NOTE_DS2 78
+#define NOTE_E2  82
+#define NOTE_F2  87
+#define NOTE_FS2 93
+#define NOTE_G2  98
+#define NOTE_GS2 104
+#define NOTE_A2  110
+#define NOTE_AS2 117
+#define NOTE_B2  123
+#define NOTE_C3  131
+#define NOTE_CS3 139
+#define NOTE_D3  147
+#define NOTE_DS3 156
+#define NOTE_E3  165
+#define NOTE_F3  175
+#define NOTE_FS3 185
+#define NOTE_G3  196
+#define NOTE_GS3 208
+#define NOTE_A3  220
+#define NOTE_AS3 233
+#define NOTE_B3  247
+#define NOTE_C4  262
+#define NOTE_CS4 277
+#define NOTE_D4  294
+#define NOTE_DS4 311
+#define NOTE_E4  330
+#define NOTE_F4  349
+#define NOTE_FS4 370
+#define NOTE_G4  392
+#define NOTE_GS4 415
+#define NOTE_A4  440
+#define NOTE_AS4 466
+#define NOTE_B4  494
+#define NOTE_C5  523
+#define NOTE_CS5 554
+#define NOTE_D5  587
+#define NOTE_DS5 622
+#define NOTE_E5  659
+#define NOTE_F5  698
+#define NOTE_FS5 740
+#define NOTE_G5  784
+#define NOTE_GS5 831
+#define NOTE_A5  880
+#define NOTE_AS5 932
+#define NOTE_B5  988
+#define NOTE_C6  1047
+#define NOTE_CS6 1109
+#define NOTE_D6  1175
+#define NOTE_DS6 1245
+#define NOTE_E6  1319
+#define NOTE_F6  1397
+#define NOTE_FS6 1480
+#define NOTE_G6  1568
+#define NOTE_GS6 1661
+#define NOTE_A6  1760
+#define NOTE_AS6 1865
+#define NOTE_B6  1976
+#define NOTE_C7  2093
+#define NOTE_CS7 2217
+#define NOTE_D7  2349
+#define NOTE_DS7 2489
+#define NOTE_E7  2637
+#define NOTE_F7  2794
+#define NOTE_FS7 2960
+#define NOTE_G7  3136
+#define NOTE_GS7 3322
+#define NOTE_A7  3520
+#define NOTE_AS7 3729
+#define NOTE_B7  3951
+#define NOTE_C8  4186
+#define NOTE_CS8 4435
+#define NOTE_D8  4699
+#define NOTE_DS8 4978
+#define REST 0
+
+
+// SONG 1 -----------------------------------
+int tempo1 = 220;
+int melody1[] = {
+
+// At Dooms Gate
+   NOTE_E2, 8, NOTE_E2, 8, NOTE_E3, 8, NOTE_E2, 8, NOTE_E2, 8, NOTE_D3, 8, NOTE_E2, 8, NOTE_E2, 8, //1
+  NOTE_C3, 8, NOTE_E2, 8, NOTE_E2, 8, NOTE_AS2, 8, NOTE_E2, 8, NOTE_E2, 8, NOTE_B2, 8, NOTE_C3, 8,
+  NOTE_E2, 8, NOTE_E2, 8, NOTE_E3, 8, NOTE_E2, 8, NOTE_E2, 8, NOTE_D3, 8, NOTE_E2, 8, NOTE_E2, 8,
+  NOTE_C3, 8, NOTE_E2, 8, NOTE_E2, 8, NOTE_AS2, -2,
+
+  NOTE_E2, 8, NOTE_E2, 8, NOTE_E3, 8, NOTE_E2, 8, NOTE_E2, 8, NOTE_D3, 8, NOTE_E2, 8, NOTE_E2, 8, //73
+  NOTE_C3, 8, NOTE_E2, 8, NOTE_E2, 8, NOTE_AS2, 8, NOTE_E2, 8, NOTE_E2, 8, NOTE_B2, 8, NOTE_C3, 8,
+  NOTE_E2, 8, NOTE_E2, 8, NOTE_E3, 8, NOTE_E2, 8, NOTE_E2, 8, NOTE_D3, 8, NOTE_E2, 8, NOTE_E2, 8,
+  NOTE_B3, -16, NOTE_G3, -16, NOTE_E3, -16, NOTE_B2, -16, NOTE_E3, -16, NOTE_G3, -16, NOTE_C4, -16, NOTE_B3, -16, NOTE_G3, -16, NOTE_B3, -16, NOTE_G3, -16, NOTE_E3, -16,
+};
+
+int notes1 = sizeof(melody1) / sizeof(melody1[0]) / 2;
+
+
+// SONG 2 -------------------------------------
+int tempo2 = 144;
+int melody2[] = {
+  NOTE_E5, 4,  NOTE_B4,8,  NOTE_C5,8,  NOTE_D5,4,  NOTE_C5,8,  NOTE_B4,8,
+  NOTE_A4, 4,  NOTE_A4,8,  NOTE_C5,8,  NOTE_E5,4,  NOTE_D5,8,  NOTE_C5,8,
+  NOTE_B4, -4,  NOTE_C5,8,  NOTE_D5,4,  NOTE_E5,4,
+  NOTE_C5, 4,  NOTE_A4,4,  NOTE_A4,8,  NOTE_A4,4,  NOTE_B4,8,  NOTE_C5,8,
+
+  NOTE_D5, -4,  NOTE_F5,8,  NOTE_A5,4,  NOTE_G5,8,  NOTE_F5,8,
+  NOTE_E5, -4,  NOTE_C5,8,  NOTE_E5,4,  NOTE_D5,8,  NOTE_C5,8,
+  NOTE_B4, 4,  NOTE_B4,8,  NOTE_C5,8,  NOTE_D5,4,  NOTE_E5,4,
+  NOTE_C5, 4,  NOTE_A4,4,  NOTE_A4,4, REST, 4,
+};
+int notes2 = sizeof(melody2) / sizeof(melody2[0]) / 2;
+
+// this calculates the duration of a whole note in ms
+int wholenote = (60000 * 2) / tempo2;
+
+int divider = 0, noteDuration = 0;
+
+
+
+
+
+
+
+// Ultrasonic Sensors
+#define trigPin3 12
+#define echoPin3 13
+#define trigPin4 10
+#define echoPin4 9
+
+
+//LED RINGS
+#define LED_PIN 2 // controls ring 1 and 2(Originally Labelled LED_PIN)
+#define LED_PIN3 3  // define 3 and 4 seperately to allow for 2-4 players
+#define LED_PIN4 4
+#define LED_COUNT 16 //16 leds on  each ring
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel strip3(LED_COUNT, LED_PIN3, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel strip4(LED_COUNT, LED_PIN4, NEO_GRB + NEO_KHZ800);
+
+LiquidCrystal_I2C lcd(0x27,20,4);  // set the LCD address to 0x27 for a 16 chars and 2 line display
+
+
+// Defining Buttons
+const int switchStart = 7; //Start button
+const int switchPin1 = A0; //Player 1 button (red)
+const int switchPin2 = A1; //Player 2 button (blue)
+const int switchPin3 = 5; //Player 3 button (green)
+const int switchPin4 = 6; //Player 4 button (yellow)
+
+// Defining other pins
+const int RELAY_PIN = 11; // pump
+const int buzzer = 8; // use tone(pin, frequency, duration)
+const int FSR = A2; // force sensor
+const int pResistor = A3; // pResistor
+
+int fValue = 1000;
+
+int tempo = 0;
+int pValue = 0; // for analog read of pResistor
+int brightness = 0; // for re-mapped value of pValue
+
+
+
+
+//initializing states
+int numPlayers = 0; // Track number of players
+long duration3; // for ultrasonic sensor of player 3
+long duration4; // for ultrasonic sensor of player 4
+int distance3;  // for ultrasonic sensor of player 3
+int distance4;  // for ultrasonic sensor of player 4
+boolean playersConfirmed = false; // for determining how many players are in the game
+
+// the red player one button will be used as the confirm players button
+int confirmState = 0; // current state
+
+//int fValue = 0; // the value of the FSR (used in pourShot() method)
+
+int buttonStateP1 = 0; //Player 1 button tracking
+int buttonStateP2 = 0; //Player 2 button tracking
+int buttonStateP3 = 0; //Player 3 button tracking
+int buttonStateP4 = 0; //Player 4 button tracking
+int lastButtonStateP1 = 0; // Player 1 last button state (used to detect a button press)
+int lastButtonStateP2 = 0; // Player 2 last button state (used to detect a button press)
+int lastButtonStateP3 = 0; // Player 3 last button state (used to detect a button press)
+int lastButtonStateP4 = 0; // Player 4 last button state (used to detect a button press)
+int scoreP1 = 0; // Player 1 score tracking
+int scoreP2 = 0; // Player 2 score tracking
+int scoreP3 = 0; // Player 3 score tracking
+int scoreP4 = 0; // Player 4 score tracking
+boolean allDone = false; // Used to see if all players have pressed their buttons
+boolean gameOn = false; // Keep track if the game is going on or not
+boolean startButtonState = HIGH; // Start button initalization
+
+boolean p1Done = false; // Keep track of Player 1's button press
+boolean p2Done = false; // Keep track of Player 2's button press
+boolean p3Done = false; // Keep track of Player 3's button press
+boolean p4Done = false; // Keep track of Player 4's button press
+
+long randomTime; // Hold the random time between the start of the game and the indicator light coming back on
+long startTime; // When did the game start
+long endTimeP1; // When did Player 1 press their button
+long endTimeP2; // When did Player 2 press their button
+long endTimeP3; // When did Player 3 press their button
+long endTimeP4; // When did Player 4 press their button
+
+float finalTimeP1; // Time elapsed between start of the game and Player 1 pressing their button
+float finalTimeP2; // Time elapsed between start of the game and Player 2 pressing their button
+float finalTimeP3; // Time elapsed between start of the game and Player 3 pressing their button
+float finalTimeP4; // Time elapsed between start of the game and Player 4 pressing their button
+
+long pumpStart;
+long pumpDelta;
+long pumpCurr;
+
+
+
+// ------------------------------------------------------------------------
+// ----- SETUP ------------------------------------------------------------
+// ------------------------------------------------------------------------
+void setup(){  
+
+  pValue = analogRead(pResistor);
+  brightness = map(pValue, 0, 1024, 15, 150);
+
+ strip.begin();
+ strip3.begin();
+ strip4.begin();
+ strip.setBrightness(brightness);
+ strip3.setBrightness(brightness);
+ strip4.setBrightness(brightness);
+ strip.show();
+ strip3.show();
+ strip4.show();
+  // Begin Serial communication at a baudrate of 9600;
+  Serial.begin(9600);
+
+  Serial.print("Brightness: ");
+  Serial.println(brightness);
+
+ 
+
+  lcd.backlight();
+  lcd.begin(16, 2); //lcd size 2 lines, 16 characters
+  lcd.clear(); //clears previous data in display
+  lcd.print(" THE DOUBLE E");
+  Serial.println("THE DOUBLE E");
+  Serial.println("DRINKING GAME");
+//  Terminal.print("THE DOUBLE E DRINKING GAME");
+  lcd.setCursor(0,1); //set invisible cursor to the first column (column 0), second line (line 1)
+  lcd.print(" DRINKING GAME");
+
+  delay(100);
+  colorWipe4(strip4.Color(150, 150, 150), 50);
+  theaterChase4(strip4.Color(150, 150, 150), 50);
+  delay(100);
+  colorWipe4(strip4.Color(150, 150, 150), 50);
+  theaterChase4(strip4.Color(150, 150, 150), 50);
+  strip.clear();
+  strip3.clear();
+  strip4.clear();
+  strip.show();
+  strip3.show();
+  strip4.show();
+  
+
+
+  playSong1(); // Play Song 1
+  //playSong2(); // Play Song 2
+
+//  colorWipe4(strip4.Color(255, 0, 0), 50); // Red
+//  colorWipe4(strip4.Color(0, 255, 0), 50); // Green
+//  colorWipe4(strip4.Color(0, 0, 255), 50); // Blue
+//  colorWipe4(strip4.Color(255, 0, 0), 50);
+
+
+  pinMode(FSR, INPUT);
+
+  // initialize pins for ultrasonic sensors
+  pinMode(trigPin3, OUTPUT);
+  pinMode(echoPin3, INPUT);
+  pinMode(trigPin4, OUTPUT);
+  pinMode(echoPin4, INPUT);
+
+  // initialize pins for player buttons and start
+  pinMode(switchStart, INPUT_PULLUP);
+  pinMode(switchPin1, INPUT_PULLUP);
+  pinMode(switchPin2, INPUT_PULLUP);
+  pinMode(switchPin3, INPUT_PULLUP);
+  pinMode(switchPin4, INPUT_PULLUP);
+
+  // initialize pin for relay (pump);
+  pinMode(RELAY_PIN, OUTPUT);
+  
+
+  
+  findPlayers();
+}
+
+
+
+
+
+// -------------------------------------------------------------------
+// ----- FINDPLAYERS METHOD ------------------------------------------
+// -----------------------------------------------------------------
+void findPlayers(){
+  
+while (playersConfirmed == false){ // until red is pressed, continue this loop
+  
+  for (int i = 0; i < 4; i++){
+    
+// ---- Ultrasonic Sensor 3 Scanning
+    // Clear the trigPin by setting it LOW:
+  digitalWrite(trigPin3, LOW);
+  delayMicroseconds(5);
+
+  // Trigger the sensor by setting the trigPin high for 10 microseconds:
+  digitalWrite(trigPin3, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin3, LOW);
+
+  // Read the echoPin, pulseIn() returns the duration (length of the pulse) in microseconds:
+  duration3 = pulseIn(echoPin3, HIGH);
+  // Calculate the distance:
+  distance3 = duration3 * 0.034 / 2;
+
+// --- Ultrasonic Sensor 4 Scanning
+    // Clear the trigPin by setting it LOW:
+  digitalWrite(trigPin4, LOW);
+  delayMicroseconds(5);
+
+  // Trigger the sensor by setting the trigPin high for 10 microseconds:
+  digitalWrite(trigPin4, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin4, LOW);
+
+  // Read the echoPin, pulseIn() returns the duration (length of the pulse) in microseconds:
+  duration4 = pulseIn(echoPin4, HIGH);
+  // Calculate the distance:
+  distance4 = duration4 * 0.034 / 2;
+  }
+  
+//  Serial.print("Distance3 = ");
+//  Serial.println(distance3);
+//  Serial.print("Distance4 = ");
+//  Serial.println(distance4);
+
+  if(distance3 > 10 && distance4 > 10){ // 2 players found
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print("2 PLAYERS FOUND");
+    Serial.println("2 PLAYERS FOUND");
+    lcd.setCursor(0,1);
+    lcd.print("RED TO CONFIRM");
+    // add if statement for confirm button
+    numPlayers = 2;
+  }
+  
+  if(distance3 > 10 && distance4 < 10){ // invalid scenario
+      lcd.clear();
+      lcd.setCursor(0,0);
+      lcd.print("INVALID CONFIG");
+      Serial.println("INVALID CONFIG");
+      lcd.setCursor(0,1);
+      lcd.print("YELLOW TO GREEN");
+      Serial.println("YELLOW TO GREEN");
+      numPlayers = 2;
+    }
+    if(distance3 < 10 && distance4 > 10){  // 3 players found
+      lcd.clear();
+      lcd.setCursor(0,0);
+      lcd.print("3 PLAYERS FOUND");
+      Serial.println("3 PLAYERS FOUND");
+      lcd.setCursor(0,1);
+      lcd.print("RED TO CONFIRM");
+      // add if statement for confirm button
+      numPlayers = 3;
+    }
+    if(distance3 < 10 && distance4 < 10){    // 4 players found
+      lcd.clear();
+      lcd.setCursor(0,0);
+      lcd.print("4 PLAYERS FOUND");
+      Serial.println("4 PLAYERS FOUND");
+      lcd.setCursor(0,1);
+      lcd.print("RED TO CONFIRM");
+      Serial.println("RED TO CONFIRM");
+      // add if statement for confirm button
+      numPlayers = 4;
+    }
+
+    delay(500);
+    
+  Serial.print("# of Players = ");
+  Serial.println(numPlayers);
+  Serial.println("RED TO CONFIRM");
+  
+  delay(1000);
+  
+  
+  int state = analogRead(switchPin1);
+  
+    if (state < 500) {
+     playersConfirmed = true;
+     Serial.print("Players locked in: ");
+     Serial.println(numPlayers);
+     lcd.clear();
+     lcd.setCursor(2,0);
+     lcd.print("PLAYERS =");
+     lcd.setCursor(12,0);
+     lcd.print(numPlayers);
+     lcd.setCursor(1, 1); 
+     lcd.print("*PRESS START*");
+    } else {
+      playersConfirmed = false;
+    }
+  
+  }
+}
+
+
+
+
+// --------------------------------------------------------------------------
+// ----- START LOOP METHOD --------------------------------------------------
+// --------------------------------------------------------------------------
+
+void loop(){
+  
+  // -------- 2 PLAYER SCENARIO --------------------------------
+  if(numPlayers == 2){
+//    Serial.println("***PRESS START***");
+    delay(100);
+    //colorWipe(strip.Color(255, 0, 0), 50); // Red ----- change brightness value to depend on brightness variable
+    //colorWipe(strip.Color(0, 255, 0), 50); // Green
+    //colorWipe(strip.Color(0, 0, 255), 50); // Blue
+    //colorWipe(strip.Color(0, 0, 0, 255), 50); // White RGBW
+  //theaterChaseRainbow(50);
+    
+    //Serial.print("startButtonState: ");
+    //Serial.println(startButtonState);
+   
+    
+    startButtonState = digitalRead(switchStart); // Listen for the start button to be pressed
+    buttonStateP1 = analogRead(switchPin1);
+    buttonStateP2 = analogRead(switchPin2);
+
+    // if the start button has been pressed and there is no game already running, begin the game
+    if (startButtonState == LOW && gameOn == false){
+     Serial.println("random2 countdown...");
+     Random2();
+    }
+
+    //led effect when button1 pressed while game is not going.
+    if (buttonStateP1 < 500 && gameOn == false) {
+     colorWipe(strip.Color(255,   0,   0), 10); // Red
+     colorWipe(strip.Color(  0,   0,   0), 10); // off
+     strip.show();
+    }
+    if (buttonStateP2 < 500 && gameOn == false) {
+    colorWipe(strip.Color(0,0,255), 10); // blue
+    colorWipe(strip.Color(  0,   0,   0), 10); // off
+    strip.show();
+    }
+  }
+  
+  // -------- 3 PLAYER SCENARIO ---------------------------------
+  if(numPlayers == 3){
+    Serial.println("***PRESS START***");
+    //colorWipe3(strip3.Color(255, 0, 0), 50);
+    //colorWipe3(strip3.Color(0, 255, 0), 50);
+    //colorWipe3(strip3.Color(0, 0, 255), 50);
+    //colorWipe3(strip3.Color(0, 0, 0, 255), 50);
+    //theaterChaseRainbow3(50);
+    
+    startButtonState = digitalRead(switchStart); // Listen for the start button to be pressed
+    buttonStateP1 = analogRead(switchPin1);
+    buttonStateP2 = analogRead(switchPin2);
+    buttonStateP3 = digitalRead(switchPin3);
+
+    // if the start button has been pressed and there is no game already running, begin the game
+    if (startButtonState == LOW && gameOn == false){
+     Serial.println("random3 countdown...");
+     Random3();
+    }
+
+    //led effect when button1 pressed while game is not going.
+    if (buttonStateP1 < 500 && gameOn == false) {
+     colorWipe3(strip3.Color(255,   0,   0), 10); // Red
+     colorWipe3(strip3.Color(  0,   0,   0), 10); // off
+     strip3.show();
+    }
+    //led effect when button2 pressed while game is not going.
+    if (buttonStateP2 < 500 && gameOn == false) {
+     colorWipe3(strip3.Color(0,0,255), 10); // blue
+     colorWipe3(strip3.Color(  0,   0,   0), 10); // off
+     strip3.show();
+    }
+     //led effect when button3 pressed while game is not going.
+    if (buttonStateP3 == LOW && gameOn == false) {
+     colorWipe3(strip3.Color(0,128,0), 10); // green
+     colorWipe3(strip3.Color(  0,   0,   0), 10); // off
+     strip3.show();
+    }
+  }
+  
+  // -------- 4 PLAYER SCENARIO -----------------------------------
+  if(numPlayers == 4){
+    Serial.println("***PRESS START***");
+    //colorWipe4(strip4.Color(255, 0, 0), 50);
+    //colorWipe4(strip4.Color(0, 255, 0), 50);
+    //colorWipe4(strip4.Color(0, 0, 255), 50);
+    //colorWipe4(strip4.Color(0, 0, 0, 255), 50);
+    //theaterChaseRainbow4(50);
+    
+    startButtonState = digitalRead(switchStart); // Listen for the start button to be pressed
+    buttonStateP1 = analogRead(switchPin1);
+    buttonStateP2 = analogRead(switchPin2);
+    buttonStateP3 = digitalRead(switchPin3);
+    buttonStateP4 = digitalRead(switchPin4);
+
+    // if the start button has been pressed and there is no game already running, begin the game
+    if (startButtonState == LOW && gameOn == false){
+     Serial.println("random4 countdown...");
+     Random4();
+    }
+
+    //led effect when button1 pressed while game is not going.
+    if (buttonStateP1 < 500 && gameOn == false) {
+     colorWipe4(strip4.Color(255,   0,   0), 10); // Red
+     colorWipe4(strip4.Color(  0,   0,   0), 10); // off
+     strip4.show();
+    }
+    //led effect when button2 pressed while game is not going.
+    if (buttonStateP2 < 500 && gameOn == false) {
+     colorWipe4(strip4.Color(0,0,255), 10); // blue
+     colorWipe4(strip4.Color(  0,   0,   0), 10); // off
+     strip4.show();
+    }
+     //led effect when button3 pressed while game is not going.
+    if (buttonStateP3 == LOW && gameOn == false) {
+     colorWipe4(strip4.Color(0,128,0), 10); // green
+     colorWipe4(strip4.Color(  0,   0,   0), 10); // off
+     strip4.show();
+    }
+    if (buttonStateP4 == LOW && gameOn == false) {
+    colorWipe4(strip.Color(255,255,0), 10); // yellow
+    colorWipe4(strip.Color(  0,   0,   0), 10); // off
+    strip4.show();
+    }
+    
+  }
+}
+
+
+
+
+// ----------------------------------------------------------------------------------
+// ----- RANDOM2 METHOD -------------------------------------------------------------
+// ----------------------------------------------------------------------------------
+void Random2(){
+  randomTime = random(4,10);
+  randomTime = randomTime*1000;
+
+  //Neopixel effects while waiting to press button
+  colorWipe(strip.Color(255,   0,   0), 15); // Red
+  colorWipe(strip.Color(  0, 255,   0), 15); // Green
+  colorWipe(strip.Color(  0,   0, 255), 15); // Blue
+  colorWipe(strip.Color(255, 255,   0), 15); // Yellow
+  colorWipe(strip.Color(  0,   0,   0), 10); //off
+  delay(1000);
+  colorWipe(strip.Color(255,   0,   0), 15); // Red
+  colorWipe(strip.Color(  0, 255,   0), 15); // Green
+  colorWipe(strip.Color(  0,   0, 255), 15); // Blue
+  colorWipe(strip.Color(255, 255,   0), 15); // Yellow
+  colorWipe(strip.Color(  0,   0,   0), 10); //off
+  delay(500);
+
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("GET READY!");
+  Serial.println("GET READY!");
+  lcd.setCursor(0,1);
+  lcd.print("* * * * *");
+
+  delay(randomTime);
+  
+  startGame2();
+ } 
+
+
+
+// ----------------------------------------------------------------------------------
+// ----- RANDOM3 METHOD -------------------------------------------------------------
+// ----------------------------------------------------------------------------------
+void Random3(){
+  randomTime = random(4,10);
+  randomTime = randomTime*1000;
+
+  //Neopixel effects while waiting to press button
+  colorWipe3(strip3.Color(255,   0,   0), 15); // Red
+  colorWipe3(strip3.Color(  0, 255,   0), 15); // Green
+  colorWipe3(strip3.Color(  0,   0, 255), 15); // Blue
+  colorWipe3(strip3.Color(255, 255,   0), 15); // Yellow
+  colorWipe3(strip3.Color(  0,   0,   0), 10); //off
+  delay(1000);
+  colorWipe3(strip3.Color(255,   0,   0), 15); // Red
+  colorWipe3(strip3.Color(  0, 255,   0), 15); // Green
+  colorWipe3(strip3.Color(  0,   0, 255), 15); // Blue
+  colorWipe3(strip3.Color(255, 255,   0), 15); // Yellow
+  colorWipe3(strip3.Color(  0,   0,   0), 10); //off
+  delay(500);
+
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("GET READY!");
+  Serial.println("GET READY!");
+  lcd.setCursor(0,1);
+  lcd.print("* * * * *");
+
+  delay(randomTime);
+  
+  startGame3();
+}
+
+
+
+// ----------------------------------------------------------------------------------
+// ----- RANDOM4 METHOD -------------------------------------------------------------
+// ----------------------------------------------------------------------------------
+void Random4(){
+    randomTime = random(4,10);
+  randomTime = randomTime*1000;
+
+  //Neopixel effects while waiting to press button
+  colorWipe4(strip4.Color(255,   0,   0), 15); // Red
+  colorWipe4(strip4.Color(  0, 255,   0), 15); // Green
+  colorWipe4(strip4.Color(  0,   0, 255), 15); // Blue
+  colorWipe4(strip4.Color(255, 255,   0), 15); // Yellow
+  colorWipe4(strip4.Color(  0,   0,   0), 10); //off
+  delay(500);
+  colorWipe4(strip4.Color(255,   0,   0), 15); // Red
+  colorWipe4(strip4.Color(  0, 255,   0), 15); // Green
+  colorWipe4(strip4.Color(  0,   0, 255), 15); // Blue
+  colorWipe4(strip4.Color(255, 255,   0), 15); // Yellow
+  colorWipe4(strip4.Color(  0,   0,   0), 10); //off
+  delay(500);
+
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("GET READY!");
+  Serial.println("GET READY!");
+  lcd.setCursor(0,1);
+  lcd.print("* * * * *");
+
+  delay(randomTime);
+  
+  startGame4();
+}
+
+
+
+
+
+// ---------------------------------------------------------------------------------------
+// ----- STARTGAME2 METHOD ---------------------------------------------------------------
+// ---------------------------------------------------------------------------------------
+ // game is currently running
+ // listen for the players buttons to be pressed
+
+ void startGame2(){
+  gameOn = true; // Declare a game is currently running
+  startTime = millis();
+  Serial.println("GO!");
+  colorWipe(strip.Color(192,192,192), 0);// silver // Turn on game LED indicating players should press their buttons as quickly as possible
+
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("WHO LOST?");
+  lcd.setCursor(0,1);
+  lcd.print("SLOW POKE??");
+
+  while(p1Done == false || p2Done == false){
+  buttonStateP1 = analogRead(switchPin1);
+  buttonStateP2 = analogRead(switchPin2);
+  
+  // Listen for Player 1 button to be pressed and set Player 1 as done.
+  if (buttonStateP1 < 500 && p1Done == false) {
+    endTimeP1 = millis();
+    Serial.println("P1 Done");
+    p1Done = true;     
+  }
+  // Listen for Player 2 button to be pressed and set Player 2 as done.
+  if (buttonStateP2 < 500 && p2Done == false) {
+    endTimeP2 = millis();
+    Serial.println("P2 Done");
+    p2Done = true;  
+  }
+ }
+   Serial.print("P1 time = ");
+   Serial.println(endTimeP1);
+//   Terminal.print("P1 time = ");
+//   Terminal.println(endTimeP1);
+   Serial.print("P2 time = ");
+   Serial.println(endTimeP2);
+//   Terminal.print("P2 time = ");
+   //Terminal.println(endTimeP2);
+   
+  colorWipe(strip.Color(  0,   0,   0), 0); //off // Turn off the game LED
+  strip.show();
+  rainbow(10); // Flowing rainbow cycle along the whole strip
+  endGame2();
+   
+
+}
+
+
+
+// ---------------------------------------------------------------------------------------
+// ----- STARTGAME3 METHOD ---------------------------------------------------------------
+// ---------------------------------------------------------------------------------------
+
+ void startGame3(){
+  gameOn = true; // Declare a game is currently running
+  startTime = millis();
+   Serial.println("GO!");
+  colorWipe3(strip3.Color(192,192,192), 0);// silver // Turn on game LED indicating players should press their buttons as quickly as possible
+
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("WHO LOST?");
+  lcd.setCursor(0,1);
+  lcd.print("SLOW POKE??");
+
+  while(p1Done == false || p2Done == false || p3Done == false){
+    buttonStateP1 = analogRead(switchPin1);
+    buttonStateP2 = analogRead(switchPin2);
+    buttonStateP3 = digitalRead(switchPin3);
+    
+    // Listen for Player 1 button to be pressed and set Player 1 as done.
+    if (buttonStateP1 < 500 && p1Done == false) {
+      endTimeP1 = millis();
+      Serial.println("P1 Done");
+      p1Done = true;     
+    }
+    // Listen for Player 2 button to be pressed and set Player 2 as done.
+    if (buttonStateP2 < 500 && p2Done == false) {
+      endTimeP2 = millis();
+      Serial.println("P2 Done");
+      p2Done = true;  
+    }
+    // Listen for Player 3 button to be pressed and set Player 3 as done.
+    if (buttonStateP3 == LOW && p3Done == false) {
+      endTimeP3 = millis();
+      Serial.println("P3 Done");
+      p3Done = true;
+    }
+  }
+   
+   Serial.print("P1 time = ");
+   Serial.println(endTimeP1);
+   Serial.print("P2 time = ");
+   Serial.println(endTimeP2);
+   Serial.print("P3 time = ");
+   Serial.println(endTimeP3);
+  
+  colorWipe3(strip3.Color(  0,   0,   0), 0); //off // Turn off the game LED
+  strip3.show();
+  rainbow3(10); // Flowing rainbow cycle along the whole strip
+  endGame3();
+}
+
+
+
+// ---------------------------------------------------------------------------------------
+// ----- STARTGAME4 METHOD ---------------------------------------------------------------
+// ---------------------------------------------------------------------------------------
+
+ void startGame4(){
+  gameOn = true; // Declare a game is currently running
+  startTime = millis();
+   Serial.println("GO!");
+  colorWipe4(strip4.Color(192,192,192), 0);// silver // Turn on game LED indicating players should press their buttons as quickly as possible
+
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("WHO LOST?");
+  lcd.setCursor(0,1);
+  lcd.print("SLOW POKE??");
+
+  while(p1Done == false || p2Done == false || p3Done == false || p4Done == false){
+    buttonStateP1 = digitalRead(switchPin1);
+    buttonStateP2 = digitalRead(switchPin2);
+    buttonStateP3 = digitalRead(switchPin3);
+    buttonStateP4 = digitalRead(switchPin4);
+    
+    // Listen for Player 1 button to be pressed and set Player 1 as done.
+    if (buttonStateP1 == LOW && p1Done == false) {
+      endTimeP1 = millis();
+      Serial.println("P1 Done");
+      p1Done = true;     
+    }
+    // Listen for Player 2 button to be pressed and set Player 2 as done.
+    if (buttonStateP2 == LOW && p2Done == false) {
+      endTimeP2 = millis();
+      Serial.println("P2 Done");
+      p2Done = true;  
+    }
+    // Listen for Player 3 button to be pressed and set Player 3 as done.
+    if (buttonStateP3 == LOW && p3Done == false) {
+      endTimeP3 = millis();
+      Serial.println("P3 Done");
+      p3Done = true;
+    }
+    // Listen for Player 4 button to be pressed and set Player 4 as done.
+    if (buttonStateP4 == LOW && p4Done == false) {
+      endTimeP4 = millis();
+      Serial.println("P4 Done");
+      p4Done = true;
+    }
+  }
+   
+//   Serial.print("P1 time = ");
+//   Serial.println(endTimeP1);
+//   Serial.print("P2 time = ");
+//   Serial.println(endTimeP2);
+//   Serial.print("P3 time = ");
+//   Serial.println(endTimeP3);
+//   Serial.print("P4 time = ");
+//   Serial.println(endTimeP4);
+  
+  colorWipe4(strip4.Color(  0,   0,   0), 0); //off // Turn off the game LED
+  strip4.show();
+  rainbow4(10); // Flowing rainbow cycle along the whole strip
+  endGame4();
+}
+
+
+
+
+// ------------------------------------------------------------------------------
+// ----- ENDGAME2 METHOD --------------------------------------------------------
+// ------------------------------------------------------------------------------
+
+
+void endGame2(){
+  
+  finalTimeP1 = (endTimeP1 - startTime); //Calculate how long it took Player 1 to push their button
+  finalTimeP2 = (endTimeP2 - startTime); //Calculate how long it took Player 2 to push their button
+
+// Run if Player 1 lost the round
+  if (finalTimeP1 > finalTimeP2){
+    Serial.println("P1 Lost");
+ //   Terminal.println("P1 Lost");
+    pourShot();     
+    Player1LCDMode();
+    
+   theaterChaseRainbow(50);
+   resetVariables();
+  }
+
+// Run if Player 2 lost the round
+  else if (finalTimeP2 > finalTimeP1){
+    Serial.println("P2 Lost");
+//    Terminal.println("P2 Lost");
+    pourShot();
+    Player2LCDMode();
+   
+    theaterChaseRainbow(50);
+    resetVariables();
+  }
+  
+  //This assigns a loser in a tie
+  else if (finalTimeP1 == finalTimeP2){
+    Serial.println("tie P2 Lost");
+//    Terminal.println("P2 Lost");
+    pourShot();
+    Player2LCDMode();
+
+    theaterChaseRainbow(50);
+    resetVariables();
+  }
+}
+
+
+
+// ------------------------------------------------------------------------------
+// ----- ENDGAME3 METHOD --------------------------------------------------------
+// ------------------------------------------------------------------------------
+
+void endGame3(){
+  
+  finalTimeP1 = (endTimeP1 - startTime); //Calculate how long it took Player 1 to push their button
+  finalTimeP2 = (endTimeP2 - startTime); //Calculate how long it took Player 2 to push their button
+  finalTimeP3 = (endTimeP3 - startTime); //Calculate how long it took Player 3 to push their button
+ 
+ // Run if Player 1 lost the round
+  if (finalTimeP1 > finalTimeP2 && finalTimeP1 > finalTimeP3){
+   Serial.println("P1 Lost");
+    pourShot();     
+    Player1LCDMode();
+    
+   theaterChaseRainbow3(50);
+   resetVariables();
+  }
+
+  // Run if Player 2 lost the round
+  else if (finalTimeP2 > finalTimeP1 && finalTimeP2 > finalTimeP3){
+   Serial.println("P2 Lost");
+    pourShot();
+    Player2LCDMode();
+   
+    theaterChaseRainbow3(50);
+    resetVariables();
+  }
+  
+  // Run if Player 3 lost the round
+  else if (finalTimeP3 > finalTimeP1 && finalTimeP3 > finalTimeP2){
+   Serial.println("P3 Lost");
+    pourShot();
+    Player3LCDMode();
+   
+    theaterChaseRainbow3(50);
+    resetVariables();
+  }
+  
+  
+  //This assigns a loser in a tie
+  else if (finalTimeP1 == finalTimeP2 && finalTimeP1 > finalTimeP3){
+  Serial.println("P2 Lost");
+    pourShot();
+    Player2LCDMode();
+   
+    theaterChaseRainbow3(50);
+    resetVariables();
+  }
+  
+  //This assigns a loser in a tie
+  else if (finalTimeP1 == finalTimeP3 && finalTimeP1 > finalTimeP2){
+    Serial.println("P1 Lost");
+    pourShot();
+    Player1LCDMode();
+   
+    theaterChaseRainbow3(50);
+    resetVariables();
+  }
+  
+  //This assigns a loser in a tie
+  else if (finalTimeP2 == finalTimeP3 && finalTimeP2 > finalTimeP1){
+   Serial.println("P3 Lost");
+    pourShot();
+    Player3LCDMode();
+   
+    theaterChaseRainbow3(50);
+    resetVariables();
+  }
+  
+  //This assigns a loser in a tie
+  else if (finalTimeP1 == finalTimeP2 && finalTimeP1 == finalTimeP3){
+   Serial.println("P1 Lost");
+    pourShot();
+    Player1LCDMode();
+   
+    theaterChaseRainbow3(50);
+    resetVariables();
+  }
+}
+
+
+
+
+
+// ------------------------------------------------------------------------------
+// ----- ENDGAME4 METHOD --------------------------------------------------------
+// ------------------------------------------------------------------------------
+
+void endGame4(){
+  
+  finalTimeP1 = (endTimeP1 - startTime); //Calculate how long it took Player 1 to push their button
+  finalTimeP2 = (endTimeP2 - startTime); //Calculate how long it took Player 2 to push their button
+  finalTimeP3 = (endTimeP3 - startTime); //Calculate how long it took Player 3 to push their button
+  finalTimeP4 = (endTimeP4 - startTime); //Calculate how long it took Player 4 to push their button
+ 
+ // Run if Player 1 lost the round
+  if (finalTimeP1 > finalTimeP2 && finalTimeP1 > finalTimeP3 && finalTimeP1 > finalTimeP4){
+   Serial.println("P1 Lost");
+    pourShot();
+    //buzzerLoser(); ----------- add this method
+    Player1LCDMode();
+   
+    theaterChaseRainbow4(50);
+    resetVariables();
+  }
+
+  // Run if Player 2 lost the round
+  else if (finalTimeP2 > finalTimeP1 && finalTimeP2 > finalTimeP3 && finalTimeP2 > finalTimeP4){
+   Serial.println("P2 Lost");
+    pourShot();
+    //buzzerLoser();
+    Player2LCDMode();
+   
+    theaterChaseRainbow4(50);
+    resetVariables();
+  }
+  
+  // Run if Player 3 lost the round
+  else if (finalTimeP3 > finalTimeP1 && finalTimeP3 > finalTimeP2 && finalTimeP3 > finalTimeP4){
+   Serial.println("P3 Lost");
+    pourShot();
+    //buzzerLoser();
+    Player3LCDMode();
+   
+    theaterChaseRainbow4(50);
+    resetVariables();
+  }
+  
+  // Run if Player 4 lost the round
+  else if (finalTimeP4 > finalTimeP1 && finalTimeP4 > finalTimeP2 && finalTimeP4 > finalTimeP3){
+   Serial.println("P4 Lost");
+    pourShot();
+    //buzzerLoser();
+    Player4LCDMode();
+   
+    theaterChaseRainbow4(50);
+    resetVariables();
+  }
+  
+  //This assigns a loser in a tie
+  else if (finalTimeP1 == finalTimeP2 && finalTimeP1 > finalTimeP3 && finalTimeP1 > finalTimeP4){
+   Serial.println("P2 Lost");
+    pourShot();
+    //buzzerLoser();
+    Player2LCDMode();
+   
+    theaterChaseRainbow4(50);
+    resetVariables();
+  }
+  
+  //This assigns a loser in a tie
+  else if (finalTimeP1 == finalTimeP3 && finalTimeP1 > finalTimeP2 && finalTimeP1 > finalTimeP4){
+   Serial.println("P1 Lost");
+    pourShot();
+    //buzzerLoser();
+    Player1LCDMode();
+   
+    theaterChaseRainbow4(50);
+    resetVariables();
+  }
+  
+  //This assigns a loser in a tie
+  else if (finalTimeP1 == finalTimeP4 && finalTimeP1 > finalTimeP2 && finalTimeP1 > finalTimeP3){
+   Serial.println("P4 Lost");
+    pourShot();
+    //buzzerLoser();
+    Player4LCDMode();
+   
+    theaterChaseRainbow4(50);
+    resetVariables();
+  }
+  
+  //This assigns a loser in a tie
+  else if (finalTimeP2 == finalTimeP3 && finalTimeP2 > finalTimeP1 && finalTimeP2 > finalTimeP4){
+   Serial.println("P3 Lost");
+    pourShot();
+    //buzzerLoser();
+    Player3LCDMode();
+   
+    theaterChaseRainbow4(50);
+    resetVariables();
+  }
+  
+  //This assigns a loser in a tie
+  else if (finalTimeP2 == finalTimeP4 && finalTimeP2 > finalTimeP1 && finalTimeP2 > finalTimeP3){ 
+   Serial.println("P2 Lost");
+    pourShot();
+    //buzzerLoser();
+    Player2LCDMode();
+   
+    theaterChaseRainbow4(50);
+    resetVariables();
+  }
+  
+  //This assigns a loser in a tie
+  else if (finalTimeP3 == finalTimeP4 && finalTimeP3 > finalTimeP1 && finalTimeP3 > finalTimeP2){
+   Serial.println("P3 Lost");
+    pourShot();
+    //buzzerLoser();
+    Player3LCDMode();
+   
+    theaterChaseRainbow4(50);
+    resetVariables();
+  }
+  
+  //This assigns a loser in a tie
+  else if (finalTimeP1 == finalTimeP2 && finalTimeP1 == finalTimeP3 && finalTimeP1 > finalTimeP4){
+   Serial.println("P1 Lost");
+    pourShot();
+    //buzzerLoser();
+    Player1LCDMode();
+   
+    theaterChaseRainbow4(50);
+    resetVariables();
+  }
+  
+  //This assigns a loser in a tie
+  else if (finalTimeP1 == finalTimeP3 && finalTimeP1 == finalTimeP4 && finalTimeP1 > finalTimeP2){
+   Serial.println("P3 Lost");
+    pourShot();
+    //buzzerLoser();
+    Player3LCDMode();
+   
+    theaterChaseRainbow4(50);
+    resetVariables();
+  }
+ 
+ //This assigns a loser in a tie
+  else if (finalTimeP1 == finalTimeP2 && finalTimeP1 == finalTimeP4 && finalTimeP1 > finalTimeP3){
+   Serial.println("P2 Lost");
+    pourShot();
+    //buzzerLoser();
+    Player2LCDMode();
+   
+    theaterChaseRainbow4(50);
+    resetVariables();
+  }
+  
+  //This assigns a loser in a tie
+  else if (finalTimeP2 == finalTimeP3 && finalTimeP2 == finalTimeP4 && finalTimeP2 > finalTimeP1){
+   Serial.println("P4 Lost");
+    pourShot();
+    //buzzerLoser();
+    Player2LCDMode();
+   
+    theaterChaseRainbow4(50);
+    resetVariables();
+  }
+  
+  //This assigns a loser in a tie
+  else if (finalTimeP1 == finalTimeP2 && finalTimeP1 == finalTimeP3 && finalTimeP1 == finalTimeP4){
+   Serial.println("P1 Lost");
+    pourShot();
+    //buzzerLoser();
+    Player1LCDMode();
+   
+    theaterChaseRainbow4(50);
+    resetVariables();
+  }
+}
+
+
+
+// -------------------------------------------------------------------------
+// ----- P1 LCD MODE METHOD ------------------------------------------------
+// -------------------------------------------------------------------------
+
+void Player1LCDMode() {
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("RED PLAYER");
+  lcd.setCursor(0,1);
+  lcd.print("DRINK UP");
+
+  theaterChase4(strip4.Color(255,   0,   0), 50); // Red, half brightness
+  colorWipe4(strip4.Color(255,   0,   0), 20); // Red
+  colorWipe4(strip4.Color(  0,   0,   0), 20); // off
+  theaterChase4(strip4.Color(255,   0,   0), 50); // Red, half brightness
+  colorWipe4(strip4.Color(255,   0,   0), 20); // Red
+  colorWipe4(strip4.Color(  0,   0,   0), 20); // off
+  theaterChase4(strip4.Color(255,   0,   0), 50); // Red, half brightness
+  colorWipe4(strip4.Color(  0,   0,   0), 0); //off // Turn off the game LED
+  strip4.show();
+
+  delay(500);
+  lcd.clear(); //clears previous data in display
+  lcd.print("THE DOUBLE E");
+  lcd.setCursor(0,1); //set invisible cursor to the first column (column 0), second line (line 1)
+  lcd.print("DRINKING GAME");
+  delay(1000);
+}
+
+// -------------------------------------------------------------------------
+// ----- P2 LCD MODE METHOD ------------------------------------------------
+// -------------------------------------------------------------------------
+
+void Player2LCDMode(){
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("BLUE PLAYER");
+  lcd.setCursor(0,1);
+  lcd.print("SHOOT IT!");
+  
+  theaterChase4(strip4.Color(0,0,255), 50); // blue, half brightness
+  colorWipe4(strip4.Color(0,0,255), 20); // blue
+  colorWipe4(strip4.Color(  0,   0,   0), 20); // off
+  theaterChase4(strip4.Color(0,0,255), 50); // blue, half brightness
+  colorWipe4(strip4.Color(0,0,255), 20); // blue
+  colorWipe4(strip4.Color(  0,   0,   0), 20); // off
+  theaterChase4(strip4.Color(0,0,255), 50); // blue, half brightness
+  colorWipe4(strip4.Color(  0,   0,   0), 0); //off // Turn off the game LED
+  strip4.show();
+
+  delay(500);
+  lcd.clear(); //clears previous data in display
+  lcd.print("THE DOUBLE E");
+  lcd.setCursor(0,1); //set invisible cursor to the first column (column 0), second line (line 1)
+  lcd.print("DRINKING GAME");
+  delay(1000);
+}
+
+
+// -------------------------------------------------------------------------
+// ----- P3 LCD MODE METHOD ------------------------------------------------
+// -------------------------------------------------------------------------
+
+void Player3LCDMode(){
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("GREEN PLAYER");
+  lcd.setCursor(0,1);
+  lcd.print("DRINK UP");
+  
+  theaterChase4(strip4.Color(0,128,0), 50); // green, half brightness
+  colorWipe4(strip4.Color(0,128,0), 20); // green
+  colorWipe4(strip4.Color(  0,   0,   0), 20); // off
+  theaterChase4(strip4.Color(0,128,0), 50); // green, half brightness
+  colorWipe4(strip4.Color(0,128,0), 20); // green
+  colorWipe4(strip4.Color(  0,   0,   0), 20); // off
+  theaterChase4(strip4.Color(0,128,0), 50); // green, half brightness
+  colorWipe4(strip4.Color(  0,   0,   0), 0); //off // Turn off the game LED
+  strip4.show();
+
+  delay(500);
+  lcd.clear(); //clears previous data in display
+  lcd.print("THE DOUBLE E");
+  lcd.setCursor(0,1); //set invisible cursor to the first column (column 0), second line (line 1)
+  lcd.print("DRINKING GAME");
+  delay(1000);
+}
+
+// -------------------------------------------------------------------------
+// ----- P4 LCD MODE METHOD ------------------------------------------------
+// -------------------------------------------------------------------------
+
+void Player4LCDMode(){
+    lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("YELLOW PLAYER");
+  lcd.setCursor(0,1);
+  lcd.print("SHOOT IT!");
+  
+  theaterChase4(strip4.Color(255,255,0), 50); // yellow, half brightness
+  colorWipe4(strip4.Color(255,255,0), 20); // yellow
+  colorWipe4(strip4.Color(  0,   0,   0), 20); // off
+  theaterChase4(strip4.Color(255,255,0), 50); // yellow, half brightness
+  colorWipe4(strip4.Color(255,255,0), 20); // yellow
+  colorWipe4(strip4.Color(  0,   0,   0), 20); // off
+  theaterChase4(strip4.Color(255,255,0), 50); // yellow, half brightness
+  colorWipe4(strip4.Color(  0,   0,   0), 0); //off // Turn off the game LED
+  strip4.show();
+
+  delay(500);
+  lcd.clear(); //clears previous data in display
+  lcd.print("THE DOUBLE E");
+  lcd.setCursor(0,1); //set invisible cursor to the first column (column 0), second line (line 1)
+  lcd.print("DRINKING GAME");
+  delay(1000);
+}
+
+
+
+
+
+// ---------------------------------------------------------------------------
+// ----- POUR SHOT METHOD ----------------------------------------------------
+// ---------------------------------------------------------------------------
+
+void pourShot(){
+
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("PUMPING");
+  pumpStart = millis();
+//  Serial.print("Pump Start: ");
+//  Serial.println(pumpStart);
+  
+//  while(pumpDelta < 5000 && fValue > 950){ ----------------- // For actual project
+//    fValue = analogRead(FSR);   // Read FSR value
+//    pumpCurr = millis();      // Track when the pump started pumping
+//    
+//    //enable relay for pump
+//    digitalWrite(RELAY_PIN, HIGH);
+//    
+//    pumpDelta = pumpCurr - pumpStart; // Calculate how long the pump has been running
+//      lcd.clear();
+//      lcd.setCursor(0,0);
+//      lcd.print("PUMPING"); 
+//      Serial.print("Time Pumped = ");   // Write to serial pump run time
+//      Serial.println(pumpDelta);
+//    
+//      Serial.print("fValue: ");   // Read FSR value
+//      Serial.println(fValue);
+//      delay(500);
+//  
+//  }
+  
+  digitalWrite(RELAY_PIN, HIGH);
+  delay(10000);
+  digitalWrite(RELAY_PIN, LOW);
+  while(pumpDelta < 8000 && fValue > 500){ // ---------- for simulated project
+    fValue = analogRead(FSR);   // Read FSR value
+    Serial.print(fValue);
+    pumpCurr = millis();      // Track when the pump started pumping
+    
+    //enable relay for pump
+    digitalWrite(RELAY_PIN, HIGH);
+    
+    pumpDelta = pumpCurr - pumpStart; // Calculate how long the pump has been running
+    Serial.print("Time Pumped = ");   // Write to serial pump run time
+    Serial.println(pumpDelta);
+    
+    Serial.print("fValue: ");   // Read FSR value
+    Serial.println(fValue);
+    delay(500);
+  }
+  
+  // disable relay for pump
+  digitalWrite(RELAY_PIN, LOW);
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("DRINK UP!");
+  Serial.println("Relay pin low.");
+}
+
+
+
+
+
+// ---------------------------------------------------------------------------
+// ----- RESET VARIABLES METHOD ----------------------------------------------
+// ---------------------------------------------------------------------------
+
+void resetVariables(){
+  strip.clear();
+  strip.show();
+  strip3.clear();
+  strip4.clear();
+  strip4.show();
+  strip4.show();
+  buttonStateP1 = 0;
+  buttonStateP2 = 0;
+  buttonStateP3 = 0;
+  buttonStateP4 = 0;
+  lastButtonStateP1 = 0; 
+  lastButtonStateP2 = 0;
+  lastButtonStateP3 = 0; 
+  lastButtonStateP4 = 0;
+  startButtonState = HIGH;
+  buttonStateP1 = HIGH;
+  buttonStateP2 = HIGH;
+  buttonStateP3 = HIGH;
+  buttonStateP4 = HIGH;
+  allDone = false;
+  gameOn = false;
+  p1Done = false;
+  p2Done = false;
+  p3Done = false;
+  p4Done = false;
+  randomTime = 0;
+  startTime = 0;
+  p1Done = false;
+  p2Done = false;
+  p3Done = false;
+  p4Done = false;
+  finalTimeP1 = 0;
+  finalTimeP2 = 0;
+  finalTimeP3 = 0;
+  finalTimeP4 = 0;
+}
+
+
+
+
+
+// ----------------------------------------------------------------------------------------
+// -------- NEOPIXELS ANIMATIONS ----------------------------------------------------
+// ----------------------------------------------------------------------------------------
+
+void colorWipe(uint32_t color, int wait) {
+  for(int i=0; i<strip.numPixels(); i++) { // For each pixel in strip...
+    strip.setPixelColor(i, color);         //  Set pixel's color (in RAM)
+    strip.show();                          //  Update strip to match
+    delay(wait);                           //  Pause for a moment
+  }
+}
+
+void colorWipe3(uint32_t color, int wait) {
+  for(int i=0; i<strip3.numPixels(); i++) { // For each pixel in strip...
+    strip.setPixelColor(i, color);
+    strip3.setPixelColor(i, color);     //  Set pixel's color (in RAM)
+    strip.show();
+    strip3.show();                          //  Update strip to match
+    delay(wait);                           //  Pause for a moment
+  }
+}
+
+void colorWipe4(uint32_t color, int wait) {
+  for(int i=0; i<strip4.numPixels(); i++) { // For each pixel in strip...
+    strip.setPixelColor(i, color);
+    strip3.setPixelColor(i, color);
+    strip4.setPixelColor(i, color);         //  Set pixel's color (in RAM)
+    strip.show();
+    strip3.show();
+    strip4.show();                          //  Update strip to match
+    delay(wait);                           //  Pause for a moment
+  }
+}
+
+
+
+//Neopixel effect
+void rainbow(int wait) {
+
+  for(long firstPixelHue = 0; firstPixelHue < 1*65536; firstPixelHue += 256) {
+    for(int i=0; i<strip.numPixels(); i++) { // For each pixel in strip...
+
+      int pixelHue = firstPixelHue + (i * 65536L / strip.numPixels());
+     
+      strip.setPixelColor(i, strip.gamma32(strip.ColorHSV(pixelHue)));
+    }
+    strip.show(); // Update strip with new contents
+    delay(wait);  // Pause for a moment
+  }
+}
+
+void rainbow3(int wait) {
+
+  for(long firstPixelHue = 0; firstPixelHue < 1*65536; firstPixelHue += 256) {
+    for(int i=0; i<strip3.numPixels(); i++) { // For each pixel in strip...
+
+      int pixelHue = firstPixelHue + (i * 65536L / strip3.numPixels());
+      
+      strip.setPixelColor(i, strip.gamma32(strip.ColorHSV(pixelHue)));
+      strip3.setPixelColor(i, strip3.gamma32(strip3.ColorHSV(pixelHue)));
+    }
+    strip.show();
+    strip3.show(); // Update strip with new contents
+    delay(wait);  // Pause for a moment
+  }
+}
+
+void rainbow4(int wait) {
+
+  for(long firstPixelHue = 0; firstPixelHue < 1*65536; firstPixelHue += 256) {
+    for(int i=0; i<strip4.numPixels(); i++) { // For each pixel in strip...
+
+      int pixelHue = firstPixelHue + (i * 65536L / strip4.numPixels());
+      
+      strip.setPixelColor(i, strip.gamma32(strip.ColorHSV(pixelHue)));
+      strip3.setPixelColor(i, strip3.gamma32(strip3.ColorHSV(pixelHue)));
+      strip4.setPixelColor(i, strip4.gamma32(strip4.ColorHSV(pixelHue)));
+    }
+    strip.show();
+    strip3.show();
+    strip4.show(); // Update strip with new contents
+    delay(wait);  // Pause for a moment
+  }
+}
+
+//Neopixel effect
+void theaterChase(uint32_t color, int wait) {
+  for(int a=0; a<20; a++) {  // Repeat 10 times...
+    for(int b=0; b<3; b++) { //  'b' counts from 0 to 2...
+      strip.clear();         //   Set all pixels in RAM to 0 (off)
+      
+      for(int c=b; c<strip.numPixels(); c += 3) {
+        strip.setPixelColor(c, color); // Set pixel 'c' to value 'color'
+      }
+      strip.show(); // Update strip with new contents
+      delay(wait);  // Pause for a moment
+    }
+  }
+}
+
+void theaterChase3(uint32_t color, int wait) {
+  for(int a=0; a<20; a++) {  // Repeat 10 times...
+    for(int b=0; b<3; b++) { //  'b' counts from 0 to 2...
+      strip.clear();
+      strip3.clear();         //   Set all pixels in RAM to 0 (off)
+      
+      for(int c=b; c<strip3.numPixels(); c += 3) {
+      //  stripsetPixelColor(c, color);
+        strip3.setPixelColor(c, color); // Set pixel 'c' to value 'color'
+      }
+      strip.show();
+      strip3.show(); // Update strip with new contents
+      delay(wait);  // Pause for a moment
+    }
+  }
+}
+
+void theaterChase4(uint32_t color, int wait) {
+  for(int a=0; a<20; a++) {  // Repeat 10 times...
+    for(int b=0; b<3; b++) { //  'b' counts from 0 to 2...
+      strip.clear();
+      strip3.clear();
+      strip4.clear();         //   Set all pixels in RAM to 0 (off)
+      
+      for(int c=b; c<strip.numPixels(); c += 3) {
+        strip.setPixelColor(c, color);
+        strip3.setPixelColor(c, color);
+        strip4.setPixelColor(c, color); // Set pixel 'c' to value 'color'
+      }
+      strip.show();
+      strip3.show();
+      strip4.show(); // Update strip with new contents
+      delay(wait);  // Pause for a moment
+    }
+  }
+}
+
+//Neopixel effect
+void theaterChaseRainbow(int wait) {
+  int firstPixelHue = 0;     // First pixel starts at red (hue 0)
+  for(int a=0; a<15; a++) {  // Repeat 30 times...
+    for(int b=0; b<3; b++) { //  'b' counts from 0 to 2...
+      strip.clear();         //   Set all pixels in RAM to 0 (off)
+    
+      for(int c=b; c<strip.numPixels(); c += 3) {
+      
+        int      hue   = firstPixelHue + c * 65536L / strip.numPixels();
+        uint32_t color = strip.gamma32(strip.ColorHSV(hue)); // hue -> RGB
+        strip.setPixelColor(c, color); // Set pixel 'c' to value 'color'
+      }
+      strip.show();                // Update strip with new contents
+      delay(wait);                 // Pause for a moment
+      firstPixelHue += 65536 / 90; // One cycle of color wheel over 90 frames
+    }
+  }
+}
+
+void theaterChaseRainbow3(int wait) {
+  int firstPixelHue = 0;     // First pixel starts at red (hue 0)
+  for(int a=0; a<15; a++) {  // Repeat 30 times...
+    for(int b=0; b<3; b++) { //  'b' counts from 0 to 2...
+      strip.clear();
+      strip3.clear();         //   Set all pixels in RAM to 0 (off)
+    
+      for(int c=b; c<strip3.numPixels(); c += 3) {
+      
+        int      hue   = firstPixelHue + c * 65536L / strip.numPixels();
+     //   int      hue   = firstPixelHue + c * 65536L / strip3.numPixels();
+        uint32_t color = strip.gamma32(strip.ColorHSV(hue)); // hue -> RGB
+     //   uint32_t color = strip3.gamma32(strip3.ColorHSV(hue)); // hue -> RGB
+        strip.setPixelColor(c, color); // Set pixel 'c' to value 'color'
+        strip3.setPixelColor(c, color); // Set pixel 'c' to value 'color'
+      }
+      strip.show();
+      strip3.show();                // Update strip with new contents
+      delay(wait);                 // Pause for a moment
+      firstPixelHue += 65536 / 90; // One cycle of color wheel over 90 frames
+    }
+  }
+}
+
+void theaterChaseRainbow4(int wait) {
+  int firstPixelHue = 0;     // First pixel starts at red (hue 0)
+  for(int a=0; a<15; a++) {  // Repeat 30 times...
+    for(int b=0; b<3; b++) { //  'b' counts from 0 to 2...
+      strip.clear();
+      strip3.clear();
+      strip4.clear();         //   Set all pixels in RAM to 0 (off)
+    
+      for(int c=b; c<strip4.numPixels(); c += 3) {
+      
+    int      hue   = firstPixelHue + c * 65536L / strip.numPixels();
+      //  int      hue   = firstPixelHue + c * 65536L / strip3.numPixels();
+      //  int      hue   = firstPixelHue + c * 65536L / strip4.numPixels();
+      //  uint32_t color = strip.gamma32(strip.ColorHSV(hue)); // hue -> RGB
+      //  uint32_t color = strip3.gamma32(strip3.ColorHSV(hue)); // hue -> RGB
+        uint32_t color = strip4.gamma32(strip4.ColorHSV(hue)); // hue -> RGB
+        strip.setPixelColor(c, color); // Set pixel 'c' to value 'color'
+        strip3.setPixelColor(c, color); // Set pixel 'c' to value 'color'
+        strip4.setPixelColor(c, color); // Set pixel 'c' to value 'color'
+      }
+      strip.show();
+      strip3.show();
+      strip4.show();                // Update strip with new contents
+      delay(wait);                 // Pause for a moment
+      firstPixelHue += 65536 / 90; // One cycle of color wheel over 90 frames
+    }
+  }
+}
+
+// ----------------------------------------------------------------------------
+// ----- PLAY SONG 1 METHOD ---------------------------------------------------
+// ----------------------------------------------------------------------------
+
+void playSong1() {
+  // iterate over the notes of the melody.
+  // Remember, the array is twice the number of notes (notes + durations)
+  for (int thisNote = 0; thisNote < notes1 * 2; thisNote = thisNote + 2) {
+
+    // calculates the duration of each note
+    divider = melody1[thisNote + 1];
+    if (divider > 0) {
+      // regular note, just proceed
+      noteDuration = (wholenote) / divider;
+    } else if (divider < 0) {
+      // dotted notes are represented with negative durations!!
+      noteDuration = (wholenote) / abs(divider);
+      noteDuration *= 1.5; // increases the duration in half for dotted notes
+    }
+
+    // we only play the note for 90% of the duration, leaving 10% as a pause
+    tone(buzzer, melody1[thisNote], noteDuration * 0.9);
+
+    // Wait for the specief duration before playing the next note.
+    delay(noteDuration);
+
+    // stop the waveform generation before the next note.
+    noTone(buzzer);
+  }
+}
+
+
+// ----------------------------------------------------------------------------
+// ----- PLAY SONG 2 METHOD ---------------------------------------------------
+// ----------------------------------------------------------------------------
+
+//void playSong2() {
+//  // iterate over the notes of the melody. 
+//  // Remember, the array is twice the number of notes (notes + durations)
+//  for (int thisNote = 0; thisNote < notes2 * 2; thisNote = thisNote + 2) {
+//
+//    // calculates the duration of each note
+//    divider = melody2[thisNote + 1];
+//    if (divider > 0) {
+//      // regular note, just proceed
+//      noteDuration = (wholenote) / divider;
+//    } else if (divider < 0) {
+//      // dotted notes are represented with negative durations!!
+//      noteDuration = (wholenote) / abs(divider);
+//      noteDuration *= 1.5; // increases the duration in half for dotted notes
+//    }
+//
+//    // we only play the note for 90% of the duration, leaving 10% as a pause
+//    tone(buzzer, melody2[thisNote], noteDuration*0.9);
+//
+//    // Wait for the specief duration before playing the next note.
+//    delay(noteDuration);
+//    
+//    // stop the waveform generation before the next note.
+//    noTone(buzzer);
+//  }
+//}
